@@ -23,7 +23,7 @@ class Calculator {
     //Todas operações da calculadora 
     processOperation(operation) {
         //verificar se current está vazio
-        if(this.currentOperationText.innerText === "") {
+        if(this.currentOperationText.innerText === "" && operation !== "C") {
             //mudar operação
             if(previousOperationText.innerText !== "") {
                 this.changeOperation(operation);
@@ -52,6 +52,18 @@ class Calculator {
                 operationValue = previous * current
                 this.updateScreen(operationValue, operation, current, previous);
                 break;
+                case "DEL":
+                this.processDelOperatioN();
+                break;
+                case "CE":
+                this.processClearCurrentOperatioN();
+                break;
+                case "C":
+                this.processClearOperatioN();
+                break;
+                case "=":
+                    this.processEqualsOperatioN();
+                    break;
             default:
                 return;
         }
@@ -90,6 +102,27 @@ class Calculator {
 
         this.previousOperationText.innerText = this.previousOperationText.innerText.slice(0, -1) + operation;
     }
+    //deletar último digito
+    processDelOperatioN() {
+        this.currentOperationText.innerText = this.currentOperationText.innerText.slice(0, -1);
+    }
+    //limpar operação atual
+    processClearCurrentOperatioN() {
+        this.currentOperationText.innerText = "";
+    }
+    //limpar todos os valores
+    processClearOperatioN() {
+        this.currentOperationText.innerText = "";
+        this.previousOperationText.innerText = "";                     
+    }
+    //mostrar p resultado total
+    processEqualsOperatioN() {
+        const operation = this.previousOperationText.innerText.split(" ")[1];
+        
+        this.processOperation(operation);
+        this.previousOperationText = this.currentOperationText
+    }
+    
 }
 
 const calc = new Calculator(previousOperationText, currentOperationText);
